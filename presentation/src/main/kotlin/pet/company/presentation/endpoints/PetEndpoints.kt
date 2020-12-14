@@ -28,11 +28,11 @@ class PetEndpoints @Inject constructor(
                 handlerRequests(controller::createPet)
             }
 
-            put("/pet").apply {
+            put("/pet/:id").apply {
                 handlerRequests(controller::updatePet)
             }
 
-            delete("/pet").apply {
+            delete("/pet/:id").apply {
                 handlerRequests(controller::deletePet)
             }
         }

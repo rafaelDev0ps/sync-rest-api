@@ -1,7 +1,12 @@
 package pet.company.infra.repositories
 
 import com.mongodb.client.MongoCollection
+import org.litote.kmongo.deleteOneById
+import org.litote.kmongo.findOneById
+import org.litote.kmongo.replaceOne
+import org.litote.kmongo.updateOneById
 import pet.company.domain.entities.Entity
+import pet.company.domain.entities.Pet
 import pet.company.domain.repositories.RepositoryInterface
 import java.util.*
 
@@ -20,5 +25,26 @@ open class Repository<T>() : RepositoryInterface<T> where T: Entity {
             createdAt = currentDate
         })
         return entity
+    }
+
+    override fun findAll(): List<T> {
+        val list = collection.find()
+        return list.toList()
+    }
+
+    override fun update(entity: T): T {
+        collection.updateOneById(entity.id, entity.apply {
+            updatedAt = Calendar.getInstance().time
+        })
+        return entity
+    }
+
+    override fun findPetById(id: String): T? {
+        return collection.findOneById(id)
+    }
+
+    override fun delete(id: String): Boolean {
+        val result = collection.deleteOneById(id)
+        return result.wasAcknowledged()
     }
 }
