@@ -41,7 +41,7 @@ class PetController @Inject constructor(
         val name = ctx.bodyAsJson.getString("name")
         val race = ctx.bodyAsJson.getString("race")
         val age = ctx.bodyAsJson.getInteger("age")
-        // TODO: fazer validações dos campos recebidos
+
         val createDTO = CreatePetDTO(name, race, age)
 
         val petCreated = petService.createPet(createDTO)

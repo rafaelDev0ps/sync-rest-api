@@ -3,6 +3,7 @@ package pet.company.application.services
 import pet.company.domain.payloads.CreatePetPayload
 import pet.company.application.dto.CreatePetDTO
 import pet.company.application.dto.UpdatePetDTO
+import pet.company.application.validators.nameAndRaceValidator
 import pet.company.domain.entities.Pet
 import pet.company.domain.payloads.UpdatePetPayload
 import pet.company.domain.services.CRUDServiceInterface
@@ -14,7 +15,11 @@ class PetService @Inject constructor(
         private val crudService: CRUDServiceInterface
 ): PetServiceInterface{
     override fun createPet(dto: CreatePetDTO) : Pet {
-        val createPayload = CreatePetPayload(dto.name, dto.race, dto.age)
+        val formatedName = nameAndRaceValidator(dto.name)
+        val formatedRace = nameAndRaceValidator(dto.race)
+
+        val createPayload = CreatePetPayload(formatedName, formatedRace, dto.age)
+
         return crudService.create(createPayload)
     }
 
