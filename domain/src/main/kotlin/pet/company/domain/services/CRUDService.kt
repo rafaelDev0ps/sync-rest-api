@@ -24,7 +24,8 @@ class CRUDService @Inject constructor(
     }
 
     override fun update(payload: UpdatePetPayload): Pet {
-        val petFound = crudRepository.findPetById(payload.id) ?: throw Exception()
+        val petFound = crudRepository.findPetById(payload.id)
+                ?: throw Exception("pet not found")
 
         petFound.apply {
             this.age = payload.age

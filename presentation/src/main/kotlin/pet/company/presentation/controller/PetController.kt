@@ -22,16 +22,12 @@ class PetController @Inject constructor(
         val array = JsonArray()
 
         petList.forEach {
-            try {
-                array.add(json {
-                    obj(
-                            "name" to it.name,
-                            "id" to it.id
-                    )
-                })
-            } catch (ex: Exception) {
-                ctx.response().end("Erro depois eu trato")
-            }
+            array.add(json {
+                obj(
+                        "name" to it.name,
+                        "id" to it.id
+                )
+            })
         }
 
         ctx.response().putHeader("Content-Type", "application/json").setStatusCode(200).end(array.encode())
@@ -54,10 +50,21 @@ class PetController @Inject constructor(
         val race = ctx.bodyAsJson.getString("race")
         val age = ctx.bodyAsJson.getInteger("age")
 
-        val updateDTO = UpdatePetDTO(id, name, race, age)
-        val updatedPet = petService.updatePet(updateDTO)
+        try {
+            val updateDTO = UpdatePetDTO(id, name, race, age)
+            val updatedPet = petService.updatePet(updateDTO)
+            ctx.response().end(Json.encode(UpdatePetResponse(updatedPet.id, updatedPet.name)))
 
-        ctx.response().end(Json.encode(UpdatePetResponse(updatedPet.id, updatedPet.name)))
+        } catch (ex: Exception) {
+            ctx.response().statusCode = 404
+            ctx.response().end(json {
+                obj(
+                        "message" to ex.message
+                )
+            }.toString())
+        }
+
+
     }
 
     fun deletePet(ctx: RoutingContext) {

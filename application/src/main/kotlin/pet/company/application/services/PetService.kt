@@ -15,10 +15,10 @@ class PetService @Inject constructor(
         private val crudService: CRUDServiceInterface
 ): PetServiceInterface{
     override fun createPet(dto: CreatePetDTO) : Pet {
-        val formatedName = nameAndRaceValidator(dto.name)
-        val formatedRace = nameAndRaceValidator(dto.race)
+        val formattedName = nameAndRaceValidator(dto.name)
+        val formattedRace = nameAndRaceValidator(dto.race)
 
-        val createPayload = CreatePetPayload(formatedName, formatedRace, dto.age)
+        val createPayload = CreatePetPayload(formattedName, formattedRace, dto.age)
 
         return crudService.create(createPayload)
     }
