@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @ApplicationScoped
 class PetController @Inject constructor(
-        private val petService: PetServiceInterface
+        val petService: PetServiceInterface
 ){
     fun getPets(ctx: RoutingContext) {
         val petList = petService.findPets()

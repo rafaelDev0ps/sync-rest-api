@@ -3,10 +3,8 @@ package pet.company.infra.repositories
 import com.mongodb.client.MongoCollection
 import org.litote.kmongo.deleteOneById
 import org.litote.kmongo.findOneById
-import org.litote.kmongo.replaceOne
 import org.litote.kmongo.updateOneById
 import pet.company.domain.entities.Entity
-import pet.company.domain.entities.Pet
 import pet.company.domain.repositories.RepositoryInterface
 import java.util.*
 
