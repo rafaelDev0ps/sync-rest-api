@@ -41,7 +41,10 @@ class PetController @Inject constructor(
         val createDTO = CreatePetDTO(name, race, age)
 
         val petCreated = petService.createPet(createDTO)
-        ctx.response().end(Json.encode(CreatePetResponse(petCreated.id, petCreated.name)))
+        ctx.response()
+                .setStatusCode(200)
+                .putHeader("Content-Type", "application/json")
+                .end(Json.encode(CreatePetResponse(petCreated.id, petCreated.name)))
     }
 
     fun updatePet(ctx: RoutingContext) {
@@ -53,11 +56,16 @@ class PetController @Inject constructor(
         try {
             val updateDTO = UpdatePetDTO(id, name, race, age)
             val updatedPet = petService.updatePet(updateDTO)
-            ctx.response().end(Json.encode(UpdatePetResponse(updatedPet.id, updatedPet.name)))
+            ctx.response()
+                    .setStatusCode(200)
+                    .putHeader("Content-Type", "application/json")
+                    .end(Json.encode(UpdatePetResponse(updatedPet.id, updatedPet.name)))
 
         } catch (ex: Exception) {
             ctx.response().statusCode = 404
-            ctx.response().end(json {
+            ctx.response()
+                    .putHeader("Content-Type", "application/json")
+                    .end(json {
                 obj(
                         "message" to ex.message
                 )
@@ -72,7 +80,10 @@ class PetController @Inject constructor(
         val petDeleted = petService.removePet(id)
 
         if (petDeleted) {
-            ctx.response().end(json {
+            ctx.response()
+                    .setStatusCode(200)
+                    .putHeader("Content-Type", "application/json")
+                    .end(json {
                 obj (
                         "deleted" to petDeleted
                 )

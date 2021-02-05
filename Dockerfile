@@ -26,7 +26,7 @@ COPY --from=builder /pet/presentation/target/lib ./lib
 COPY --from=builder /pet/presentation/target/*-runner.jar ./application.jar
 RUN chmod 775 /pet
 
-ENV MONGO_CONNECTION_STRING=mongodb://172.17.0.1:27017
+ENV MONGO_CONNECTION_STRING=mongodb+srv://rafael:<password>@petcluster.s75gp.mongodb.net/rest?retryWrites=true&w=majority
 
 EXPOSE 8080
 
